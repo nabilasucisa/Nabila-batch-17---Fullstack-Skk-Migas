@@ -13,15 +13,16 @@ public class SortByFrequency {
     }
 
     public static String sortingByFreq(String[] input) {
-        // Kelompokkan semua karakter dari masing-masing elemen pada array of string dalam satu string
+        // Grouping all the characters from parameter input into one string
         StringBuilder merge = new StringBuilder();
         for (int i = 0; i < input.length; i++) {
             merge.append(input[i]);
         }
 //        System.out.println(merge);
 
-        // Ubah string menjadi array of character, lalu buat hashmap untuk memasukan key berupa characternya dan value berupa frekuensinya
+        // Change string to be array of characters that will be used in hashmap later
         char[] chars = merge.toString().toCharArray();
+        // Make a hashmap that input character as key and it's frequency as value
         Map<Character, Integer> map = new HashMap<>();
         for (Character c : chars) {
             if (c!=null){
@@ -29,19 +30,21 @@ public class SortByFrequency {
             }
         }
 
-        // Sort hasil hashmap menggunakan stream
-        // jika frekuensi/value lebih besar lebih awal ditulis, jika value sama maka diurutkan sesuai default java (A-Za-z)
+        // Sort the hashmap using stream and lambda
+        // If the value/frequency is bigger then put it first
+        // If the value/frequency is equal then sort it by uppercase and alphabetical order (A-Za-z)
         List<Map.Entry<Character, Integer>> sortedList = map.entrySet().stream()
                 .sorted(Comparator.comparing((Map.Entry<Character, Integer> t) -> t.getValue()).reversed()
-                        .thenComparing(Map.Entry::getKey))
+                        .thenComparing(Map.Entry::getKey)) //default order of comparing string in java is A-Za-z
                 .collect(Collectors.toList());
 //        System.out.println("sorted list : " + sortedList);
 
-        // Gabungkan key map yang sudah diurutkan menjadi string
+        // Collect the sorted key/character into one string
         StringBuilder result = new StringBuilder();
         for (int i = 0; i < sortedList.size(); i++) {
             result.append(sortedList.get(i).getKey());
         }
+        // Return the result
         return result.toString();
     }
 }
